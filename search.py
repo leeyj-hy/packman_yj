@@ -161,33 +161,36 @@ def uniformCostSearch(problem):
     bfs_ = PriorityQueue()
     bfs_visited = []
     bfs_path = []
-    cost = 0
     
     start_location = problem.getStartState()
 
-    bfs_.push((start_location, bfs_path, cost),cost)
-    bfs_visited.append(start_location)
+    bfs_.push((start_location, bfs_path, 0),0)
+    # bfs_visited.append(start_location)
     
     while not bfs_.isEmpty():
         current = bfs_.pop()
         position = current[0]
         bfs_path = current[1]
-        cost = current[2]
+        cur_cost = current[2]
 
-        # if position not in bfs_visited:
-        #     bfs_visited.append(position)
         
-        if problem.isGoalState(position):
-            return bfs_path
+        if position not in bfs_visited:
+            bfs_visited.append(position)
 
-        node = problem.getSuccessors(position)
+            if problem.isGoalState(position):
+                return bfs_path
 
-        for i in node:
-            if i[0] not in bfs_visited:
-                bfs_visited.append(i[0])
+        
+
+       
+            node = problem.getSuccessors(position)
+
+            for i in node:
+            # if i[0] not in bfs_visited:
+            #     bfs_visited.append(i[0])
                 bfs_next_position = i[0]
                 bfs_next_path = bfs_path + [i[1]] 
-                bfs_cost = cost+i[2]
+                bfs_cost = cur_cost+i[2]
                 bfs_.push((bfs_next_position, bfs_next_path, bfs_cost), bfs_cost)
  
 
